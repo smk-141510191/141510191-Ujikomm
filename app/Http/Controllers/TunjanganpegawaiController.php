@@ -49,6 +49,7 @@ class TunjanganpegawaiController extends Controller
          
          $tunjangan = tunjangan::all();
         $pegawai = pegawai::with('User')->get();
+        
         return view('tunjanganpegawai.create',compact('tunjangan','pegawai'));
     }
 

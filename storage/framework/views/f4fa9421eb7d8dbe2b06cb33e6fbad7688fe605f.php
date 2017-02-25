@@ -14,34 +14,42 @@
 
             <table class="table table-striped table-bordered table-hover">
                 <thead>
-                    <tr class="bg-primary">
-                        <th>Id</th>
-                        <th>Id Tunjangan Pegawai</th>
-                        <th>Jumlah Jam Lembur</th>
-                        <th>Jumlah Uang Lembur</th>
-                        <th>Gaji Pokok</th>
-                        <th>Total Gaji</th>
-                        <th>Tanggal Pengembalian</th>
-                        <th>Status Pengembalian</th>
-                        <th>Petugas Penerima</th>
-                        <th colspan="3">Opsi</th>
-                    </tr>
-                </thead>
+                            <tr class="bg-primary">
+                            <th>No</th>
+                            <th>Nama Pegawai</th>
+                            <th>Nip Pegawai</th> 
+                            <th>Status Pengambilan</th>
+                            <th colspan="3"> <center>Opsi</center></th>
+                            </tr>
+                        </thead>
 
-                <?php $id=1; ?>
-                <?php $__currentLoopData = $penggajian; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $data): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
-                <tbody>
-                    <tr> 
-                        <td> <?php echo e($id++); ?> </td>
-                        <td> <?php echo e($data->tunjangan_pegawai->kode_tunjangan_id); ?> </td>
-                        <td> <?php echo e($data->jumalah_jam_lembur); ?> </td>
-                        <td> Rp.<?php echo e($data->jumlah_uang_lembur); ?> </td>
-                        <td> Rp.<?php echo e($data->gaji_pokok); ?> </td>
-                        <td> Rp.<?php echo e($data->total_gaji); ?> </td>
-                        <td> <?php echo e($data->tanggal_pengembalian); ?> </td>
-                        <td> <?php echo e($data->status_pengembalian); ?> </td>
-                        <td> <?php echo e($data->petugas_penerima); ?> </td>
-                        <td><a href="<?php echo e(route('penggajian.edit',$data->id)); ?>" class="btn btn-warning">Edit</a></td>
+                 <?php 
+                            $no=1 ;
+                         ?>
+                        <tbody>
+                        <?php $__currentLoopData = $penggajian; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $data): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
+                        <td><?php echo e($no++); ?></td>                        
+                       <td><img height="120px" alt="Smiley face" width="120px" class="img-circle" src="asset/image/<?php echo e($data->tunjangan_pegawai->pegawai->foto); ?>"></td> 
+
+
+ 
+                       <td><?php echo e($data->tunjangan_pegawai->pegawai->User->name); ?></td> 
+
+                       <td><?php echo e($data->tunjangan_pegawai->pegawai->nip); ?></td> 
+
+                       <td><b><?php if($data->tanggal_pengambilan == ""&&$data->status_pengambilan == "0"): ?> 
+
+                           Gaji Belum Diambil 
+
+                         <?php elseif($data->tanggal_pengambilan == ""||$data->status_pengambilan == "0"): ?> 
+                            Gaji Belum Diambil 
+                        <?php else: ?> 
+
+                           Gaji Sudah Diambil Pada <?php echo e($data->tanggal_pengambilan); ?> 
+data
+                        <?php endif; ?></b></td> 
+
+                        <td><a class="btn btn-primary form-control" href="<?php echo e(route('penggajian.show',$data->id)); ?>">Lihat</a></td>
                         <td ><a data-toggle="modal" href="#delete<?php echo e($data->id); ?>" class="btn btn-danger" title="Delete" data-toggle="tooltip">Hapus</a>
                         <?php echo $__env->make('models.delete', ['url' => route('penggajian.destroy', $data->id),'model' => $data], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                         </td>
